@@ -1,0 +1,45 @@
+.Topbar {
+    padding: 20px;
+    text-align: center;
+    background: mediumpurple;
+    color: white;
+    font-size: 20px;
+}
+
+.Topbar > h1 {
+    color: white;
+}
+
+.Footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgray;
+    text-align: center;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.component-margin {
+    padding: 20px;
+}
+
+.song-wall {
+    margin: auto;
+    width: 50%;
+    border: 3px;
+    padding: 10px;
+    text-align: center;
+}
+
+.card {
+    padding: 10px;
+    box-shadow: 0 5px 15px mediumpurple;
+}
+
+h1, h2, h3 {
+    font-weight: unset;
+}
