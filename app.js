@@ -45,43 +45,42 @@ async function addMultipleSongs(songs) {
   return inserted
 }
 
-async function countSongs() {
-  return await Song.countDocuments()
+async function countSongs(criteria) {
+  return await Song.countDocuments(criteria)
 }
 
 async function findSong(criteria,rand=0) {
   console.log(criteria)
   if (rand != 0) {
-    return await Song.findOne(criteria).skip(rand)
+    return await Song.findOne(criteria).skip(rand).exec()
   }
   else {
-    return await Song.findOne(criteria)
+    return await Song.findOne(criteria).exec()
   }
 }
 
-async function findRandomSong(unlimited) {
-  var count = await countSongs();
+async function findRandomSong(criteria) {
+  var count = await countSongs(criteria);
   var song_rand = Math.floor(Math.random() * count);
+  return await findSong(criteria, song_rand)
+}
+
+async function findSongFilter(unlimited) {
+  var criteria = {'game': 'Just Dance 2021','unlimited': false}
   if (unlimited == true) {
     var unlimited_rand = Math.floor(Math.random() * 100);
-    if (unlimited_rand <= 50) {
-      return await findSong({'game': 'Just Dance 2021','unlimited': false}, song_rand)
-    }
-    else {
-      return await findSong({'unlimited': true}, song_rand)
+    if (unlimited_rand > 50) {
+      criteria = {'unlimited': true}
     }
   }
-  else {
-    return await findSong({'game': 'Just Dance 2021','unlimited': false}, song_rand)
-  }
+  return await findRandomSong(criteria) 
 }
 
 app.use(express.json());
 
 app.post("/api/get_song", async (request, response) => {
     var unlimited = request.body.unlimited
-    // var result = await findRandomSong(unlimited);
-    response.send(await findRandomSong(unlimited));
+    response.send(await findSongFilter(unlimited));
 });
 
 app.post("/api/add_song", async (request, response) => {
