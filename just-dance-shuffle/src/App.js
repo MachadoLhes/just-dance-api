@@ -53,27 +53,44 @@ function SongPicker() {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const response = await fetch('/api/get_song', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ unlimited: true }),
+    });
+    const body = await response.text();
+
+    console.log(body)
+    
+    this.setState({ responseToPost: body });
+  };
 
   return (
     <div className="SongPicker component-margin">
-      <div>
-        <FormControlLabel
-          control={<Checkbox 
-                      checked={state.unlimited_checkbox} 
-                      onChange={handleChange} 
-                      // style={{color: 'mediumpurple'}}
-                      color='primary'
-                      name="unlimited_checkbox" />}
-          label="Allow Just Dance Unlimited"
-        />
-      </div>
-      <Button 
-        variant='outlined' 
-        color='default' 
-        background='mediumpurple'
-        endIcon={<ShuffleIcon/>}>
-          Shuffle
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <FormControlLabel
+            control={<Checkbox 
+                        checked={state.unlimited_checkbox} 
+                        onChange={handleChange} 
+                        color='primary'
+                        name="unlimited_checkbox" />}
+            label="Allow Just Dance Unlimited"
+          />
+        </div>
+        <Button 
+          variant='outlined' 
+          color='default' 
+          background='mediumpurple'
+          endIcon={<ShuffleIcon/>}>
+            Shuffle
+        </Button>
+      </form>
     </div>
   );
 }
@@ -89,8 +106,8 @@ function MainContainer() {
 
 function Footer() {
   return (
-    <footer class="Footer">
-      <div class="contact-info">
+    <footer className="Footer">
+      <div className="contact-info">
         <p>Author: Rodrigo Machado</p>
       </div>
     </footer> 
