@@ -8,7 +8,7 @@
     "lint": "eslint src/js",
     "client": "cd just-dance-shuffle && nodemon index.js",
     "server": "nodemon app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "author": "Rodrigo Machado",
   "license": "ISC",
